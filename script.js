@@ -9,10 +9,10 @@ const YOUR_EMAIL = 'stepoct09@163.com';
 const YOUR_NAME = '田育玮';
 
 // 👇 你的职位
-const YOUR_TITLE = 'Java后端实习生 / Agent应用工程师';
+const YOUR_TITLE = '寻找 Java 后端 / Agent 开发实习';
 
-// 👇 你的个人简介（留空则自动从 GitHub 获取）
-const YOUR_BIO = '';
+// 👇 你的个人简介
+const YOUR_BIO = '热爱 Java 后端开发与 AI Agent 技术探索，可实习 4-6 个月';
 
 // =================================================
 
@@ -21,12 +21,7 @@ function updatePersonalInfo() {
   document.title = `${YOUR_NAME} | 开发者`;
   document.querySelector('meta[name="description"]').content = `${YOUR_TITLE} · 开源贡献者`;
 
-  // Hero
-  document.querySelector('.hero-title').textContent = `我是${YOUR_NAME}`;
-  document.querySelector('.hero-subtitle').textContent = YOUR_TITLE;
-  document.querySelector('.hero-description').textContent = YOUR_BIO;
-
-  // Footer
+  // Footer - 只需要更新这些
   document.querySelector('.footer-logo').textContent = YOUR_NAME;
   document.querySelector('.footer-tagline').textContent = YOUR_TITLE;
   document.querySelector('.footer-copyright').innerHTML = `&copy; 2026 ${YOUR_NAME}. All rights reserved.`;
