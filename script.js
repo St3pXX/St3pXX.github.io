@@ -21,7 +21,7 @@ function updatePersonalInfo() {
   document.title = `${YOUR_NAME} | 开发者`;
   document.querySelector('meta[name="description"]').content = `${YOUR_TITLE} · 开源贡献者`;
 
-  // Footer - 只需要更新这些
+  // Footer
   document.querySelector('.footer-logo').textContent = YOUR_NAME;
   document.querySelector('.footer-tagline').textContent = YOUR_TITLE;
   document.querySelector('.footer-copyright').innerHTML = `&copy; 2026 ${YOUR_NAME}. All rights reserved.`;
@@ -67,7 +67,6 @@ async function fetchGitHubUser() {
 // 获取 GitHub Stars 总数
 async function fetchTotalStars() {
   try {
-    // 获取用户所有仓库的 Stars
     let page = 1;
     let totalStars = 0;
     let repos;
@@ -86,7 +85,7 @@ async function fetchTotalStars() {
       page++;
     } while (repos.length === 100);
 
-    document.getElementById('stat-stars').textContent = totalStars;
+    animateCounter(document.getElementById('stat-stars'), totalStars);
   } catch (error) {
     console.log('Could not fetch stars:', error);
     document.getElementById('stat-stars').textContent = '0';
@@ -105,10 +104,8 @@ async function fetchRepos() {
     const repos = await response.json();
     const projectsGrid = document.getElementById('projects-grid');
 
-    // 清空加载提示
     projectsGrid.innerHTML = '';
 
-    // 渲染项目卡片
     repos.forEach(repo => {
       if (repo.description) {
         const card = document.createElement('a');
@@ -116,7 +113,6 @@ async function fetchRepos() {
         card.target = '_blank';
         card.className = 'project-card';
 
-        // 获取语言
         const langEmoji = getLanguageEmoji(repo.language);
 
         card.innerHTML = `
@@ -136,10 +132,9 @@ async function fetchRepos() {
       }
     });
 
-    // 如果没有公开项目
     if (projectsGrid.children.length === 0) {
       projectsGrid.innerHTML = `
-        <div style="text-align: center; padding: 60px; color: var(--apple-text-secondary); grid-column: span 2;">
+        <div style="text-align: center; padding: 60px; color: var(--text-tertiary); grid-column: span 2;">
           <p>暂无公开项目</p>
         </div>
       `;
@@ -148,7 +143,7 @@ async function fetchRepos() {
   } catch (error) {
     console.log('Could not fetch repos:', error);
     document.getElementById('projects-grid').innerHTML = `
-      <div style="text-align: center; padding: 60px; color: var(--apple-text-secondary); grid-column: span 2;">
+      <div style="text-align: center; padding: 60px; color: var(--text-tertiary); grid-column: span 2;">
         <p>无法加载项目，请检查 GitHub 用户名是否正确</p>
       </div>
     `;
@@ -184,28 +179,128 @@ async function fetchFollowers() {
   try {
     const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`);
     const data = await response.json();
-    document.getElementById('stat-followers').textContent = data.followers || 0;
-    document.getElementById('stat-repos').textContent = data.public_repos || 0;
+    animateCounter(document.getElementById('stat-followers'), data.followers || 0);
+    animateCounter(document.getElementById('stat-repos'), data.public_repos || 0);
   } catch (error) {
     console.log('Could not fetch followers:', error);
   }
 }
 
-// Animate on scroll
-const animateElements = document.querySelectorAll('.animate-on-scroll');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-});
-animateElements.forEach(el => observer.observe(el));
+// 数字计数器动画
+function animateCounter(element, target, duration = 1500) {
+  const start = 0;
+  const startTime = performance.now();
 
-// Smooth scroll
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 4);
+    const current = Math.floor(start + (target - start) * eased);
+    element.textContent = current;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+// ==================== 粒子系统 ====================
+class ParticleSystem {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.particles = [];
+    this.resize();
+    window.addEventListener('resize', () => this.resize());
+    this.init();
+    this.animate();
+  }
+
+  resize() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+
+  init() {
+    const particleCount = Math.floor((this.canvas.width * this.canvas.height) / 15000);
+    for (let i = 0; i < particleCount; i++) {
+      this.particles.push({
+        x: Math.random() * this.canvas.width,
+        y: Math.random() * this.canvas.height,
+        size: Math.random() * 2 + 0.5,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: (Math.random() - 0.5) * 0.5,
+        opacity: Math.random() * 0.5 + 0.2
+      });
+    }
+  }
+
+  animate() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    this.particles.forEach(p => {
+      p.x += p.speedX;
+      p.y += p.speedY;
+
+      if (p.x < 0) p.x = this.canvas.width;
+      if (p.x > this.canvas.width) p.x = 0;
+      if (p.y < 0) p.y = this.canvas.height;
+      if (p.y > this.canvas.height) p.y = 0;
+
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      this.ctx.fillStyle = `rgba(200, 255, 0, ${p.opacity})`;
+      this.ctx.fill();
+    });
+
+    this.drawConnections();
+    requestAnimationFrame(() => this.animate());
+  }
+
+  drawConnections() {
+    const connectionDistance = 120;
+
+    for (let i = 0; i < this.particles.length; i++) {
+      for (let j = i + 1; j < this.particles.length; j++) {
+        const dx = this.particles[i].x - this.particles[j].x;
+        const dy = this.particles[i].y - this.particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < connectionDistance) {
+          const opacity = (1 - distance / connectionDistance) * 0.15;
+          this.ctx.beginPath();
+          this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+          this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+          this.ctx.strokeStyle = `rgba(200, 255, 0, ${opacity})`;
+          this.ctx.lineWidth = 0.5;
+          this.ctx.stroke();
+        }
+      }
+    }
+  }
+}
+
+// ==================== 滚动动画 ====================
+function initScrollAnimations() {
+  const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  animateElements.forEach(el => observer.observe(el));
+}
+
+// ==================== 平滑滚动 ====================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     e.preventDefault();
@@ -219,9 +314,49 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// 初始化
-updatePersonalInfo();
-fetchGitHubUser();
-fetchTotalStars();
-fetchRepos();
-fetchFollowers();
+// ==================== 导航高亮 ====================
+function initNavHighlight() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (scrollY >= sectionTop - 200) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  });
+}
+
+// ==================== 初始化 ====================
+document.addEventListener('DOMContentLoaded', () => {
+  // 初始化粒子系统
+  const canvas = document.querySelector('.particle-canvas');
+  if (canvas) {
+    new ParticleSystem(canvas);
+  }
+
+  // 初始化滚动动画
+  initScrollAnimations();
+
+  // 初始化导航高亮
+  initNavHighlight();
+
+  // 更新个人信息
+  updatePersonalInfo();
+  fetchGitHubUser();
+  fetchTotalStars();
+  fetchRepos();
+  fetchFollowers();
+});

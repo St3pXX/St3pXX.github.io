@@ -4,18 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>田育玮 | Java后端实习生 / Agent应用工程师</title>
-  <meta name="description" content="杭州电子科技大学 · 人工智能专业 · Java后端开发 · AI Agent技术探索">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👨‍💻</text></svg>">
+  <meta name="description" content="杭州电子科技大学 · 人工智能专业 · 硕士在读 · 求职Java后端/Agent开发实习">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0b' width='100' height='100' rx='20'/><text y='.9em' font-size='80' x='50%' text-anchor='middle'>👨‍💻</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Background Effects -->
+  <div class="grid-overlay"></div>
+  <div class="noise-overlay"></div>
+  <canvas class="particle-canvas"></canvas>
+
   <!-- Navigation -->
   <header class="nav-header">
     <div class="nav-content">
-      <a href="#" class="nav-logo">Portfolio</a>
+      <a href="#" class="nav-logo">ST3P</a>
       <nav class="nav-links">
         <a href="#about">关于</a>
         <a href="#skills">技能</a>
@@ -27,106 +32,117 @@
 
   <!-- Hero Section -->
   <section class="hero">
+    <div class="hero-geometry">
+      <div class="geo-ring"></div>
+      <div class="geo-grid"></div>
+      <div class="geo-dots"></div>
+      <div class="geo-hexagon"></div>
+    </div>
     <div class="hero-content">
-      <p class="hero-label">👋 寻找 Java 后端 / Agent 开发实习中</p>
-      <h1 class="hero-title">我是田育玮</h1>
+      <div class="hero-badge">
+        寻找 Java 后端 / Agent 开发实习机会
+      </div>
+      <h1 class="hero-title">
+        我是<span class="name-highlight">田育玮</span>
+      </h1>
       <p class="hero-subtitle">杭州电子科技大学 · 人工智能 · 硕士一年级</p>
       <p class="hero-description">
         热爱 Java 后端开发与 AI Agent 技术探索，可实习 4-6 个月
       </p>
       <div class="hero-actions">
-        <a href="#projects" class="link-primary">
+        <a href="#projects" class="btn btn-primary">
           探索我的项目
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M5 12h14M12 5l7 7-7 7"/>
           </svg>
         </a>
-        <a href="#contact" class="link-secondary">联系我</a>
+        <a href="#contact" class="btn btn-secondary">联系我</a>
       </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span>向下滚动</span>
     </div>
   </section>
 
-  <!-- About Section with GitHub Stats -->
+  <!-- About Section -->
   <section class="section" id="about">
     <div class="section-header animate-on-scroll">
-      <p class="section-eyebrow">About Me</p>
+      <span class="section-eyebrow">// About Me</span>
       <h2 class="section-title">关于我</h2>
     </div>
 
-    <!-- GitHub Profile -->
-    <div class="github-profile animate-on-scroll">
-      <img id="github-avatar" src="https://avatars.githubusercontent.com/u/1?v=4" alt="GitHub Avatar">
-      <h3 id="github-name">你的名字</h3>
-      <a id="github-username" href="https://github.com/你的GitHub用户名" target="_blank">@你的GitHub用户名</a>
-    </div>
+    <div class="about-container">
+      <!-- GitHub Profile -->
+      <div class="github-profile animate-on-scroll stagger-1">
+        <div class="github-avatar-wrap">
+          <img id="github-avatar" src="https://avatars.githubusercontent.com/u/1?v=4" alt="GitHub Avatar">
+        </div>
+        <h3 id="github-name">田育玮</h3>
+        <a id="github-username" href="https://github.com/St3pXX" target="_blank">@St3pXX</a>
+      </div>
 
-    <!-- GitHub Stats -->
-    <div class="stats-grid animate-on-scroll">
-      <div class="stat-item">
-        <div class="stat-number">
-          <span id="stat-stars">--</span>
+      <!-- GitHub Stats -->
+      <div class="stats-grid animate-on-scroll stagger-2">
+        <div class="stat-item">
+          <div class="stat-number" id="stat-stars">--</div>
+          <div class="stat-label">GitHub Stars</div>
         </div>
-        <div class="stat-label">GitHub Stars</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">
-          <span id="stat-repos">--</span>
+        <div class="stat-item">
+          <div class="stat-number" id="stat-repos">--</div>
+          <div class="stat-label">Repositories</div>
         </div>
-        <div class="stat-label">Repositories</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">
-          <span id="stat-followers">--</span>
+        <div class="stat-item">
+          <div class="stat-number" id="stat-followers">--</div>
+          <div class="stat-label">Followers</div>
         </div>
-        <div class="stat-label">Followers</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-number">
-          <span id="stat-commits">--</span>
+        <div class="stat-item">
+          <div class="stat-number" id="stat-commits">--</div>
+          <div class="stat-label">Contributions</div>
         </div>
-        <div class="stat-label">Contributions</div>
       </div>
-    </div>
 
-    <div style="max-width: 800px; margin: 60px auto 0; text-align: center;" class="animate-on-scroll">
-      <p style="font-size: 17px; line-height: 1.8; color: var(--apple-text-secondary);">
-        杭州电子科技大学人工智能专业硕士一年级学生，热衷于 <strong>Java 后端开发</strong> 与 <strong>AI Agent 技术</strong> 探索。
-        <br><br>
-        目前正在寻找 <strong>Java 后端 / Agent 应用开发</strong> 相关实习机会，可实习 4-6 个月。
-      </p>
+      <!-- About Text -->
+      <div class="about-text animate-on-scroll stagger-3">
+        <p>
+          杭州电子科技大学人工智能专业硕士一年级学生，热衷于 <strong>Java 后端开发</strong> 与 <strong>AI Agent 技术</strong> 探索。
+          <br><br>
+          目前正在寻找 <strong>Java 后端 / Agent 应用开发</strong> 相关实习机会，可实习 4-6 个月。
+        </p>
+      </div>
     </div>
   </section>
 
   <!-- Skills Section -->
-  <section class="section section-gray" id="skills">
+  <section class="section section-alt" id="skills">
     <div class="section-header animate-on-scroll">
-      <p class="section-eyebrow">Tech Stack</p>
+      <span class="section-eyebrow">// Tech Stack</span>
       <h2 class="section-title">技术栈</h2>
       <p class="section-description">
         我熟悉并使用这些技术来构建出色的产品
       </p>
     </div>
 
-    <div class="skills-container animate-on-scroll">
-      <div class="skill-pill">☕ Java</div>
-      <div class="skill-pill">🍃 Spring Boot</div>
+    <div class="skills-container animate-on-scroll stagger-2">
+      <div class="skill-pill java">☕ Java</div>
+      <div class="skill-pill spring">🍃 Spring Boot</div>
       <div class="skill-pill">🗃️ MySQL</div>
       <div class="skill-pill">🔴 Redis</div>
       <div class="skill-pill">🐳 Docker</div>
       <div class="skill-pill">🔧 Git</div>
-      <div class="skill-pill">🤖 LangChain</div>
-      <div class="skill-pill">🧠 AI Agent</div>
-      <div class="skill-pill">📚 RAG</div>
+      <div class="skill-pill ai">🤖 LangChain</div>
+      <div class="skill-pill ai">🧠 AI Agent</div>
+      <div class="skill-pill ai">📚 RAG</div>
       <div class="skill-pill">⚡ FastAPI</div>
       <div class="skill-pill">🌐 REST API</div>
       <div class="skill-pill">☁️ 微服务</div>
     </div>
   </section>
 
-  <!-- Projects Section - Auto-loaded from GitHub -->
+  <!-- Projects Section -->
   <section class="section" id="projects">
     <div class="section-header animate-on-scroll">
-      <p class="section-eyebrow">GitHub Projects</p>
+      <span class="section-eyebrow">// GitHub Projects</span>
       <h2 class="section-title">我的项目</h2>
       <p class="section-description">
         这些是我从 GitHub 获取的精选项目
@@ -134,16 +150,13 @@
     </div>
 
     <div class="grid animate-on-scroll" id="projects-grid">
-      <!-- Projects will be loaded from GitHub API -->
-      <div style="text-align: center; padding: 60px; color: var(--apple-text-secondary);">
-        <p>正在从 GitHub 加载项目...</p>
-      </div>
+      <div class="projects-loading"></div>
     </div>
 
-    <div style="text-align: center; margin-top: 48px;" class="animate-on-scroll">
-      <a id="github-profile-link" href="https://github.com/St3pXX" target="_blank" class="link-primary">
+    <div style="text-align: center; margin-top: 48px;" class="animate-on-scroll stagger-2">
+      <a id="github-profile-link" href="https://github.com/St3pXX" target="_blank" class="btn btn-primary">
         在 GitHub 查看更多
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </a>
@@ -151,33 +164,33 @@
   </section>
 
   <!-- Contact Section -->
-  <section class="section section-gray" id="contact">
+  <section class="section section-alt" id="contact">
     <div class="section-header animate-on-scroll">
-      <p class="section-eyebrow">Get in Touch</p>
+      <span class="section-eyebrow">// Get in Touch</span>
       <h2 class="section-title">联系我</h2>
       <p class="section-description">
         有任何问题或合作意向，欢迎联系我
       </p>
     </div>
 
-    <div class="contact-grid animate-on-scroll">
+    <div class="contact-grid animate-on-scroll stagger-2">
       <a href="mailto:stepoct09@163.com" class="contact-card">
-        <div class="contact-icon">📧</div>
+        <span class="contact-icon">📧</span>
         <div class="contact-title">邮箱</div>
         <div class="contact-info">stepoct09@163.com</div>
       </a>
       <a href="https://github.com/St3pXX" target="_blank" class="contact-card">
-        <div class="contact-icon">🐙</div>
+        <span class="contact-icon">🐙</span>
         <div class="contact-title">GitHub</div>
         <div class="contact-info">github.com/St3pXX</div>
       </a>
       <a href="#" class="contact-card">
-        <div class="contact-icon">🐦</div>
+        <span class="contact-icon">🐦</span>
         <div class="contact-title">X / Twitter</div>
         <div class="contact-info">待添加</div>
       </a>
       <a href="#" class="contact-card">
-        <div class="contact-icon">💬</div>
+        <span class="contact-icon">💬</span>
         <div class="contact-title">微信</div>
         <div class="contact-info">待添加</div>
       </a>
