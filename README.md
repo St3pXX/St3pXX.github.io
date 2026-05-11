@@ -28,19 +28,9 @@
 
 </div>
 
-## 📊 GitHub 统计
-
-<p align="left">
-  <img height="150em" src="https://github-readme-stats.vercel.app/api?username=St3pXX&show_icons=true&theme=light&hide_border=true" />
-  <img height="150em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=St3pXX&layout=compact&theme=light&hide_border=true" />
-</p>
 
 ## 🌐 我的网站
 
 👉 **[https://St3pXX.github.io](https://St3pXX.github.io)**
 
 欢迎来访！
-
----
-
-*用 ❤️ 构建*
